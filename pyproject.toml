@@ -1,8 +1,10 @@
 [project]
 name = "predictmix"
-version = "0.1.0"
+version = "0.1.1"
 description = "PredictMix: integrated polygenic + clinical disease risk prediction pipeline"
-readme = "README.md"
+
+readme = { file = "README.md", content-type = "text/markdown" }
+
 requires-python = ">=3.8"
 license = { text = "MIT" }
 

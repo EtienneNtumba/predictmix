@@ -5,7 +5,11 @@ from .pipeline import PredictMixPipeline
 __all__ = ["PredictMixPipeline"]
 
 # Version du package
-__version__ = "0.1.0"
+
+__version__ = "0.1.1"
+
+
+
 
 # Infos auteurs / crédits
 __author__ = "Etienne Ntumba Kabongo"

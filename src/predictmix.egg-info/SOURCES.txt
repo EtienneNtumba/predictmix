@@ -1,3 +1,5 @@
+LICENSE
+README.md
 pyproject.toml
 src/predictmix/__init__.py
 src/predictmix/cli.py
