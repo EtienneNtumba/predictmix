@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: predictmix
+Version: 0.1.0
+Summary: PredictMix: integrated polygenic + clinical disease risk prediction pipeline
+Author-email: Etienne Ntumba Kabongo <etienne.kabongo@mcgill.ca>, "Prof. Dr Emile Chimusa" <emile.chimusa@northumbria.ac.uk>
+License: MIT
+Project-URL: Homepage, https://github.com/EtienneNtumba/predictmix
+Project-URL: Issues, https://github.com/EtienneNtumba/predictmix/issues
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+Requires-Dist: joblib
+Requires-Dist: pyyaml
+Requires-Dist: lime
+Requires-Dist: typer>=0.7.0
+Requires-Dist: typing_extensions
+Requires-Dist: matplotlib
