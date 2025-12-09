@@ -1,311 +1,373 @@
-# **PredictMix**
+# PredictMix
 
-### **Integrated Polygenic + Clinical Disease Risk Prediction Pipeline**  
-**Developed by:**  
-- **Etienne Ntumba Kabongo**, McGill University  
-  - Email: **etienne.kabongo@mcgill.ca**  
-- **Prof. Emile R. Chimusa**, Northumbria University  
-  - Email: **emile.chimusa@northumbria.ac.uk**
+[![PyPI version](https://badge.fury.io/py/predictmix.svg)](https://badge.fury.io/py/predictmix)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
----
+### Integrated Polygenic + Clinical Disease Risk Prediction Pipeline
 
-## **Overview**
-
-**PredictMix** is a modular and extensible machine-learning pipeline for **integrated disease risk prediction**, built to combine:
-
-- **Polygenic Risk Scores (PRS)**  
-- **Clinical variables**  
-- **Environmental and lifestyle factors**  
-- **Feature selection algorithms**  
-- **Multiple ML models**  
-- **Explainability** (LIME-ready architecture)  
-- **Publication-grade visualizations**  
-
-Originally motivated by genomic studies on **sickle cell disease** and **population stratification in African cohorts**, the tool is fully generalizable to any dataset requiring **binary disease risk prediction**.
-
-PredictMix is designed for:
-
-- Researchers in **statistical genetics**, **epidemiology**, and **AI-driven clinical modeling**  
-- Large-scale biobank analyses (e.g., UKB, CKB, H3Africa)  
-- Rare disease prediction and stratification  
-- Integrative genomic & clinical prediction studies  
+**Developed by:**
+- **Etienne Ntumba Kabongo**, McGill University ([etienne.kabongo@mcgill.ca](mailto:etienne.kabongo@mcgill.ca))
+- **Prof. Emile R. Chimusa**, Northumbria University ([emile.chimusa@northumbria.ac.uk](mailto:emile.chimusa@northumbria.ac.uk))
 
 ---
 
-## **Key Features**
+## Overview
 
-### 🔬 **End-to-End Prediction Pipeline**
-- Automated train/test split  
-- Cross-validation (configurable)  
-- Multiple models (logistic regression, SVM, Random Forest, MLP, ensemble)  
+**PredictMix** is a modular and extensible machine-learning pipeline for **integrated disease risk prediction**, combining:
 
-### 🧬 **Multi-modal Feature Integration**
-- PRS + clinical + environmental + biochemical data  
-- Flexible column configuration  
-- Optional genotype-derived features
+- 🧬 **Polygenic Risk Scores (PRS)**
+- 🏥 **Clinical variables**
+- 🌍 **Environmental and lifestyle factors**
+- 🔍 **Feature selection algorithms**
+- 🤖 **Multiple ML models**
+- 💡 **Explainability** (LIME-ready architecture)
+- 📊 **Publication-grade visualizations**
 
-### 🔍 **Feature Selection Methods**
-- `none`  
-- `lasso`  
-- `elasticnet`  
-- `tree` (Random Forest importance)  
-- `chi2`  
-- `pca`  
+Originally developed for genomic studies on **sickle cell disease** and **population stratification in African cohorts**, PredictMix is fully generalizable to any **binary disease risk prediction** task.
 
-### 📊 **Advanced Plotting Suite**
-Generate high-quality figures from prediction outputs:
+**Ideal for:**
+- Researchers in statistical genetics, epidemiology, and AI-driven clinical modeling
+- Large-scale biobank analyses (e.g., UK Biobank, China Kadoorie Biobank, H3Africa)
+- Rare disease prediction and stratification
+- Integrative genomic & clinical prediction studies
 
-- ROC curve  
-- Precision–Recall curve  
-- Histograms (all + class-stratified)  
-- Scatter risk vs class  
-- Confusion matrix heatmap  
-- Calibration curves  
-- **Volcano plot** for GWAS summary statistics  
-- Batch “generate all plots” mode
+---
 
-### 📦 **PyPI Installation & CLI-first Design**
-PredictMix is simple to install and use:
+## 🚀 Quick Start
+
+### Installation
 
 ```bash
+# From PyPI (recommended)
 pip install predictmix
-predictmix --help
-```
 
----
+# From conda-forge (coming soon!)
+# conda install -c conda-forge predictmix
 
-## **Requirements**
-
-- Python **3.8+**
-
-Installed automatically when using pip:
-
-- numpy  
-- pandas  
-- scikit-learn  
-- scipy  
-- joblib  
-- pyyaml  
-- typer  
-- matplotlib  
-- lime  
-- typing_extensions  
-
----
-
-# **Installation**
-
-## **Stable Release (PyPI)**
-
-```bash
-pip install predictmix
-```
-
-## **From Source (Development)**
-
-```bash
+# From source
 git clone https://github.com/EtienneNtumba/predictmix.git
 cd predictmix
 pip install -e .
 ```
 
+### Basic Usage
+
+```bash
+# Train a model
+predictmix train data.csv \
+  --target-column disease_status \
+  --model ensemble \
+  --feature-selection lasso \
+  --n-features 10 \
+  --output-dir my_model
+
+# Generate visualizations
+predictmix plot my_model/predictions.csv \
+  --kind all \
+  --output-dir my_plots
+
+# Make predictions on new data
+predictmix predict my_model/predictmix_model.joblib new_patients.csv \
+  --output predictions.csv
+```
+
 ---
 
-# **Command-Line Usage**
+## 📊 Test Dataset
 
-Run:
+We provide a synthetic test dataset to help you get started:
+
+**Download:** [test_predictmix_data.csv](https://github.com/EtienneNtumba/predictmix/releases/download/v0.1.1/test_predictmix_data.csv)
+
+**Dataset specifications:**
+- 300 samples (91 cases, 209 controls)
+- 13 features: PRS, age, sex, BMI, hemoglobin, clinical markers, SNPs
+- Realistic associations between features and disease outcome
+
+### Try it now:
+
+```bash
+# Download the test dataset
+wget https://github.com/EtienneNtumba/predictmix/releases/download/v0.1.1/test_predictmix_data.csv
+
+# Train and evaluate
+predictmix train test_predictmix_data.csv \
+  --target-column disease_status \
+  --model ensemble \
+  --feature-selection lasso \
+  --n-features 8 \
+  --output-dir test_results 
+
+# Generate all plots
+predictmix plot test_results/predictions.csv \
+  --kind all \
+  --output-dir test_plots
+```
+
+**Expected results:**
+- AUC: 0.75-0.85
+- Accuracy: 70-80%
+- 7 publication-ready plots generated
+
+---
+
+## Key Features
+
+### 🔬 End-to-End Prediction Pipeline
+- Automated train/test split with stratification
+- Cross-validation (configurable)
+- Multiple ML models: logistic regression, SVM, Random Forest, MLP, ensemble
+
+### 🧬 Multi-modal Feature Integration
+- Seamlessly combine PRS + clinical + environmental + biochemical data
+- Flexible column configuration
+- Handle mixed data types
+
+### 🔍 Feature Selection Methods
+- `none` - Use all features
+- `lasso` - L1 regularization
+- `elasticnet` - L1 + L2 regularization
+- `tree` - Random Forest importance
+- `chi2` - Chi-squared test
+- `pca` - Principal Component Analysis
+
+### 📊 Advanced Visualization Suite
+
+Generate publication-quality plots:
+
+| Plot Type | Description |
+|-----------|-------------|
+| ROC Curve | Receiver Operating Characteristic |
+| PR Curve | Precision-Recall curve |
+| Calibration | Model calibration assessment |
+| Confusion Matrix | Classification performance heatmap |
+| Risk Histograms | Distribution of predicted risk scores |
+| Scatter Plots | Risk vs. true class visualization |
+| Volcano Plot | GWAS summary statistics visualization |
+
+### 📦 Easy Installation & CLI-first Design
+
+```bash
+pip install predictmix
+predictmix --help
+```
+
+---
+
+## Documentation
+
+### Command Overview
 
 ```bash
 predictmix --help
 ```
 
-You will see something like:
-
-```text
-Usage: predictmix [OPTIONS] COMMAND [ARGS]...
-
-Commands:
-  train        Train a PredictMix model on a dataset.
-  predict      Apply a trained model to new data.
-  plot         Generate visualization plots from predictions.
-  plot-volcano Create volcano plots for GWAS summary statistics.
-```
+Available commands:
+- `train` - Train a PredictMix model
+- `predict` - Apply trained model to new data
+- `plot` - Generate visualization plots
+- `plot-volcano` - Create volcano plots for GWAS
 
 ---
 
-# **1. Train a Model**
+## 1. Training a Model
 
-## **Basic Usage**
+### Basic Training
 
 ```bash
-predictmix train DATA.csv --model ensemble --feature-selection lasso --n-features 150
+predictmix train data.csv \
+  --target-column disease_status \
+  --model ensemble \
+  --output-dir my_model
 ```
 
-## **Training Options**
+### Advanced Training with Feature Selection
+
+```bash
+predictmix train data.csv \
+  --target-column disease_status \
+  --model ensemble \
+  --feature-selection lasso \
+  --n-features 150 \
+  --output-dir my_model \
+  --plots
+```
+
+### Training Options
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--config, -c` | Load YAML config instead of CLI options | None |
-| `--model, -m` | Model: `logreg`, `svm`, `rf`, `mlp`, `ensemble` | `ensemble` |
-| `--feature-selection, -f` | FS method: `none`, `lasso`, `elasticnet`, `tree`, `chi2`, `pca` | `lasso` |
-| `--n-features, -k` | Number of features to keep | `100` |
-| `--target-column, -y` | Target (label) column name (0/1) | `y` |
+| `--config, -c` | Load YAML config file | None |
+| `--model, -m` | Model type: `logreg`, `svm`, `rf`, `mlp`, `ensemble` | `ensemble` |
+| `--feature-selection, -f` | Feature selection: `none`, `lasso`, `elasticnet`, `tree`, `chi2`, `pca` | `lasso` |
+| `--n-features, -k` | Number of features to select | `100` |
+| `--target-column, -y` | Target column name (binary: 0/1) | `y` |
 | `--output-dir, -o` | Output directory | `predictmix_output` |
-| `--export-predictions` | CSV path for `y_true`, `risk_proba`, `split` | `<output_dir>/predictions.csv` |
-| `--plots/--no-plots` | Automatically generate ROC & PR plots | `--no-plots` |
+| `--export-predictions` | Export predictions CSV | Flag |
+| `--plots/--no-plots` | Auto-generate ROC & PR plots | `--no-plots` |
 
----
+### Output Files
 
-## **Training Output**
-
-By default, training creates:
-
-```text
-predictmix_output/
-│
-├── predictmix_model.joblib   # Trained model
-├── config.json               # Configuration snapshot
-├── metrics.json              # CV + test metrics
-└── predictions.csv           # y_true, risk_proba, split
+```
+my_model/
+├── predictmix_model.joblib   # Trained model (reusable)
+├── config.json               # Configuration used
+├── metrics.json              # Performance metrics
+└── predictions.csv           # Predictions with probabilities
 ```
 
-### **metrics.json**
+#### metrics.json
 
 ```json
 {
   "cv": {
-    "accuracy": ...,
-    "auc": ...,
-    "precision_macro": ...,
-    "recall_macro": ...,
-    "f1_macro": ...
+    "accuracy": 0.78,
+    "auc": 0.82,
+    "precision_macro": 0.75,
+    "recall_macro": 0.74,
+    "f1_macro": 0.74
   },
   "test": {
-    "accuracy": ...,
-    "auc": ...,
-    "precision_macro": ...,
-    "recall_macro": ...,
-    "f1_macro": ...
+    "accuracy": 0.80,
+    "auc": 0.81,
+    "precision_macro": 0.77,
+    "recall_macro": 0.76,
+    "f1_macro": 0.76
   }
 }
 ```
 
-### **predictions.csv**
-
-| Column      | Description                               |
-|-------------|-------------------------------------------|
-| `y_true`    | True binary label (0/1)                   |
-| `risk_proba`| Predicted probability for class 1         |
-| `split`     | `"train_cv"` for CV, `"test"` for test set |
-
 ---
 
-# **2. Predict on New Samples**
+## 2. Making Predictions
 
-## **Usage**
+### Apply trained model to new data
 
 ```bash
-predictmix predict MODEL_PATH DATA.csv --output predictions_new.csv
+predictmix predict my_model/predictmix_model.joblib new_patients.csv \
+  --output predictions.csv
 ```
 
-### **Arguments**
+**Input:** CSV file with same features as training data (no target column needed)
 
-| Argument | Description |
-|----------|-------------|
-| `MODEL_PATH` | Path to `predictmix_model.joblib` from training |
-| `DATA` | CSV/Parquet with new individuals (no label column required) |
-
-### **Options**
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `--output, -o` | CSV file to write predictions | `predictmix_predictions.csv` |
-
-The output file will contain all original columns plus:
-
-| Column      | Description                               |
-|-------------|-------------------------------------------|
-| `risk_proba`| Predicted probability for the positive class |
+**Output:** Original data + `risk_proba` column (predicted disease probability)
 
 ---
 
-# **3. Generate Plots from Predictions**
+## 3. Generating Visualizations
 
-## **Usage**
+### Generate All Plots
 
 ```bash
-predictmix plot predictions.csv --kind all --output-dir predictmix_plots
+predictmix plot my_model/predictions.csv \
+  --kind all \
+  --output-dir my_plots
 ```
 
-### **Arguments**
-
-| Argument | Description |
-|----------|-------------|
-| `RESULTS` | CSV file with at least `y_true` and `risk_proba` columns |
-
-### **Options**
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `--kind, -k` | `rocpr`, `hist`, `scatter`, `heatmap`, `calib`, `all` | `all` |
-| `--output-dir, -o` | Directory for plot PNGs | `predictmix_plots` |
-
-### **Generated Plots (for `--kind all`)**
-
-- `roc_curve.png` – ROC curve  
-- `pr_curve.png` – Precision–Recall curve  
-- `hist_risk_all.png` – Risk distribution (all samples)  
-- `hist_risk_by_class.png` – Risk distribution by class  
-- `scatter_risk_vs_class.png` – Scatter of risk vs. true class  
-- `confusion_heatmap.png` – Confusion matrix heatmap  
-- `calibration_curve.png` – Calibration (reliability) curve  
-
----
-
-# **4. Volcano Plot for GWAS Summary Statistics**
-
-## **Usage**
+### Generate Specific Plot Types
 
 ```bash
-predictmix plot-volcano gwas_summary.csv   --effect-col beta   --pval-col pval   --output volcano.png
+# ROC and Precision-Recall curves
+predictmix plot predictions.csv --kind rocpr --output-dir plots/
+
+# Histograms
+predictmix plot predictions.csv --kind hist --output-dir plots/
+
+# Calibration curve
+predictmix plot predictions.csv --kind calib --output-dir plots/
+
+# Confusion matrix
+predictmix plot predictions.csv --kind heatmap --output-dir plots/
+
+# Scatter plot
+predictmix plot predictions.csv --kind scatter --output-dir plots/
 ```
 
-### **Arguments**
+### Plot Options
 
-| Argument | Description |
-|----------|-------------|
-| `summary` | GWAS-like summary statistics CSV file |
-
-### **Options**
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `--effect-col` | Name of effect-size column (e.g. `beta`, `logOR`) | `beta` |
-| `--pval-col` | Name of p-value column | `pval` |
-| `--output, -o` | Output PNG for volcano plot | `predictmix_volcano.png` |
-
-The input file must contain the specified `effect_col` and `pval_col` columns.
+| Option | Values | Description |
+|--------|--------|-------------|
+| `--kind, -k` | `all`, `rocpr`, `hist`, `scatter`, `heatmap`, `calib` | Plot type(s) to generate |
+| `--output-dir, -o` | directory path | Output directory for plots |
 
 ---
 
-# **Input Data Format**
+## 4. Volcano Plots for GWAS
 
-## **Minimum Required Columns for Training**
+### Generate volcano plot from summary statistics
 
-- One **binary label column** (e.g. `y`, `case_control`)  
-- One or more **numeric feature columns** (PRS, clinical variables, labs, etc.)
+```bash
+predictmix plot-volcano gwas_summary.csv \
+  --effect-col beta \
+  --pval-col pval \
+  --output volcano.png
+```
 
-### **Example `data.csv`**
+**Input format:**
+```csv
+snp_id,beta,pval,chr,position
+rs123456,0.5,0.001,1,1000000
+rs234567,-0.3,0.005,1,2000000
+...
+```
+
+---
+
+## Complete Example Workflow
+
+```bash
+# 1. Download test data
+wget https://github.com/EtienneNtumba/predictmix/releases/download/v0.1.1/test_predictmix_data.csv
+
+# 2. Train model with feature selection
+predictmix train test_predictmix_data.csv \
+  --target-column disease_status \
+  --model ensemble \
+  --feature-selection lasso \
+  --n-features 8 \
+  --output-dir results \
+  --export-predictions
+
+# 3. Generate all visualizations
+predictmix plot results/predictions.csv \
+  --kind all \
+  --output-dir results/plots
+
+# 4. Check performance metrics
+cat results/metrics.json
+
+# 5. Create new patient data for prediction (first 20 rows as example)
+head -21 test_predictmix_data.csv > new_patients.csv
+
+# 6. Make predictions on new patients
+predictmix predict results/predictmix_model.joblib new_patients.csv \
+  --output new_predictions.csv
+
+# 7. View predictions
+head new_predictions.csv
+```
+
+---
+
+## Input Data Format
+
+### Minimum Requirements
+
+- One **binary target column** (0/1) - e.g., `disease_status`, `case_control`, `outcome`
+- One or more **numeric feature columns** - e.g., PRS, age, BMI, lab values
+
+### Example Dataset
 
 ```csv
-y,prs,age,bmi,family_history,hbF,env_score
-0,0.12,35,22.5,0,0.15,0.3
-1,1.45,29,27.1,1,0.08,0.7
-0,-0.34,41,24.8,0,0.20,0.2
-1,1.10,33,26.3,1,0.05,0.8
+disease_status,prs,age,sex,bmi,hemoglobin,family_history,smoking
+0,0.12,35,0,22.5,14.2,0,0
+1,1.45,29,1,27.1,12.1,1,1
+0,-0.34,41,0,24.8,13.8,0,0
+1,1.10,33,1,26.3,11.5,1,0
 ```
 
-If your label column has another name (e.g. `case_control`), set:
+**If your target column has a different name:**
 
 ```bash
 predictmix train data.csv --target-column case_control ...
@@ -313,58 +375,198 @@ predictmix train data.csv --target-column case_control ...
 
 ---
 
-# **Project Structure (Simplified)**
+## Model Comparison
 
-```text
-src/predictmix/
-├── __init__.py
-├── cli.py                # Command-line interface (Typer)
-├── config.py             # Config dataclass
-├── data.py               # Input loading & preprocessing
-├── feature_selection.py  # Feature selection methods
-├── models.py             # Model factory (logreg, SVM, RF, MLP, ensemble)
-├── pipeline.py           # High-level training & prediction pipeline
-├── plots.py              # All plotting utilities (ROC, PR, hist, heatmap, volcano)
-└── prs.py                # PRS-related utilities (optional/extensible)
+Test all available models:
+
+```bash
+# Logistic Regression
+predictmix train data.csv --model logreg --output-dir models/logreg
+
+# Support Vector Machine
+predictmix train data.csv --model svm --output-dir models/svm
+
+# Random Forest
+predictmix train data.csv --model rf --output-dir models/rf
+
+# Neural Network (MLP)
+predictmix train data.csv --model mlp --output-dir models/mlp
+
+# Ensemble (Voting Classifier)
+predictmix train data.csv --model ensemble --output-dir models/ensemble
+```
+
+Compare AUC scores:
+```bash
+for dir in models/*/; do
+    echo "$dir:"
+    grep '"auc"' "$dir/metrics.json" | head -1
+done
 ```
 
 ---
 
-# **Authors**
+## Feature Selection Comparison
 
-### **Primary Developer**
-**Etienne Ntumba Kabongo**  
-McGill University, Montréal, Canada  
-Email: **etienne.kabongo@mcgill.ca**
+```bash
+# Test different feature selection methods
+for method in none lasso elasticnet tree chi2 pca; do
+    predictmix train data.csv \
+        --feature-selection $method \
+        --n-features 10 \
+        --output-dir fs_$method
+done
 
-### **Scientific Supervisor**
-**Prof. Emile R. Chimusa**  
-Northumbria University, United Kingdom  
-Email: **emile.chimusa@northumbria.ac.uk**
-
----
-
-# **License**
-
-This project is distributed under the **MIT License**. See the `LICENSE` file for details.
-
----
-
-# **How to Cite PredictMix**
-
-If you use PredictMix in research, please cite:
-
-> Ntumba Kabongo E., Chimusa E.R., *PredictMix: an integrated polygenic–clinical machine learning pipeline for disease risk prediction*, 2025.
+# Compare results
+for dir in fs_*/; do
+    echo "$dir:"
+    grep '"test"' -A 5 "$dir/metrics.json"
+done
+```
 
 ---
 
-# **Future Extensions**
+## Performance Metrics
 
-- SHAP explainability and global/local feature importance  
-- Multi-class classification support  
-- Deep learning-based models  
-- Integration with PRS-CS, LDpred and other PRS frameworks  
-- Automated genotype ingestion and variant-annotation hooks  
-- Nextflow and Snakemake wrappers for large-scale HPC deployments  
-- Model cards and interactive interpretability dashboards  
+PredictMix reports the following metrics:
 
+| Metric | Description |
+|--------|-------------|
+| **AUC** | Area Under ROC Curve - discriminative ability |
+| **Accuracy** | Overall classification accuracy |
+| **Precision** | Positive Predictive Value |
+| **Recall** | Sensitivity / True Positive Rate |
+| **F1-Score** | Harmonic mean of precision and recall |
+
+**All metrics reported for:**
+- Cross-validation on training data
+- Final test set
+
+---
+
+## Clinical Risk Stratification
+
+Interpret predicted probabilities:
+
+| Risk Score | Category | Clinical Action |
+|------------|----------|-----------------|
+| > 0.80 | Very High Risk | Immediate intervention |
+| 0.60-0.80 | High Risk | Close monitoring |
+| 0.40-0.60 | Moderate Risk | Regular follow-up |
+| 0.20-0.40 | Low Risk | Standard screening |
+| < 0.20 | Very Low Risk | Routine care |
+
+```bash
+# Analyze risk distribution
+python3 << 'EOF'
+import pandas as pd
+df = pd.read_csv('results/predictions.csv')
+print(df.groupby('y_true')['risk_proba'].describe())
+EOF
+```
+
+---
+
+## Requirements
+
+- **Python:** 3.8+
+- **Dependencies** (auto-installed):
+  - numpy
+  - pandas
+  - scikit-learn
+  - scipy
+  - joblib
+  - pyyaml
+  - typer
+  - matplotlib
+  - lime
+  - typing_extensions
+
+---
+
+## Project Structure
+
+```
+src/predictmix/
+├── __init__.py
+├── cli.py                # Command-line interface (Typer)
+├── config.py             # Configuration management
+├── data.py               # Data loading & preprocessing
+├── feature_selection.py  # Feature selection methods
+├── models.py             # Model factory (logreg, SVM, RF, MLP, ensemble)
+├── pipeline.py           # Training & prediction pipeline
+├── plots.py              # Visualization utilities
+└── prs.py                # PRS utilities (extensible)
+```
+
+---
+
+## Citation
+
+If you use PredictMix in your research, please cite:
+
+```bibtex
+@software{predictmix2025,
+  author = {Ntumba Kabongo, Etienne and Chimusa, Emile R.},
+  title = {PredictMix: An Integrated Polygenic-Clinical Machine Learning Pipeline for Disease Risk Prediction},
+  year = {2025},
+  url = {https://github.com/EtienneNtumba/predictmix}
+}
+```
+
+---
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Support & Contact
+
+- **Issues:** [GitHub Issues](https://github.com/EtienneNtumba/predictmix/issues)
+- **Email:** [etienne.kabongo@mcgill.ca](mailto:etienne.kabongo@mcgill.ca)
+- **Documentation:** [GitHub Wiki](https://github.com/EtienneNtumba/predictmix/wiki)
+
+---
+
+## Roadmap
+
+### Planned Features
+
+- [ ] SHAP explainability integration
+- [ ] Multi-class classification support
+- [ ] Deep learning models (Transformers)
+- [ ] Integration with PRS-CS and LDpred
+- [ ] Automated genotype QC and processing
+- [ ] Nextflow/Snakemake workflows for HPC
+- [ ] Interactive dashboards
+- [ ] Model cards for transparency
+
+---
+
+## Acknowledgments
+
+PredictMix was developed with support from:
+- McGill University
+- Northumbria University
+
+Special thanks to all contributors and users providing feedback!
+
+---
+
+## Related Tools
+
+- **PRSice-2:** PRS calculation - [GitHub](https://github.com/choishingwan/PRSice)
+- **LDpred:** PRS adjustment - [GitHub](https://github.com/bvilhjal/ldpred)
+- **PLINK:** Genetic data analysis - [Website](https://www.cog-genomics.org/plink/)
+
+---
+
+**Made with ❤️ for the genomics and precision medicine community**

@@ -1,0 +1,15 @@
+{
+  "target_column": "y",
+  "id_column": null,
+  "prs_column": "prs",
+  "genotype_prefix": null,
+  "beta_file": null,
+  "feature_selection": "lasso",
+  "n_features": 5,
+  "model": "ensemble",
+  "cv_folds": 5,
+  "random_state": 42,
+  "test_size": 0.2,
+  "output_dir": "predictmix_output",
+  "drop_columns": []
+}

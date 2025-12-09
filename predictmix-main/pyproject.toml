@@ -1,0 +1,48 @@
+[project]
+name = "predictmix"
+version = "0.1.1"
+description = "PredictMix: integrated polygenic + clinical disease risk prediction pipeline"
+
+readme = { file = "README.md", content-type = "text/markdown" }
+
+requires-python = ">=3.8"
+license = { text = "MIT" }
+
+authors = [
+  { name = "Etienne Ntumba Kabongo", email = "etienne.kabongo@mcgill.ca" },
+  { name = "Emile R. Chimusa", email = "emile.chimusa@northumbria.ac.uk" }
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Healthcare Industry",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Scientific/Engineering :: Medical Science Apps.",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+  "numpy",
+  "pandas",
+  "scikit-learn",
+  "scipy",
+  "joblib",
+  "pyyaml",
+  "lime",
+  "typer>=0.7.0",
+  "matplotlib",
+  "typing_extensions",
+]
+
+[project.scripts]
+predictmix = "predictmix.cli:app"
+
